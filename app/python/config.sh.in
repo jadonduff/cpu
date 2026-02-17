@@ -1,0 +1,6 @@
+export PYTHONPATH=@cpu3026_BINARY_DIR@/cpu3026_py:$PYTHONPATH
+
+cd @cpu3026_SOURCE_DIR@/python
+
+echo "running main.py"
+python3 main.py

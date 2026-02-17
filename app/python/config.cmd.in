@@ -1,0 +1,9 @@
+@echo off
+
+set "PYTHONPATH=%PYTHONPATH%;@cpu3026_BINARY_DIR@/cpu3026_py"
+
+cd @cpu3026_SOURCE_DIR@/python
+
+echo %PYTHONPATH%
+echo "running main.py"
+python3 main.py

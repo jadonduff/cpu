@@ -1,0 +1,7 @@
+# ignore build
+build/
+out/
+
+# VS specific
+.vs/
+/CMakeSettings.json

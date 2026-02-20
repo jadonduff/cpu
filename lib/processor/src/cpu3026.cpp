@@ -3,27 +3,35 @@
 
 using namespace cpu3026;
 
+// implement instructions in the // instructions header
+
+// add instructions to cpu in function cpu3026_processor::do_step()
+
 // instructions
 
 void nop(cpu3026_processor& proc) {
 	++proc.ip();
 }
-void load(cpu3026_processor& proc) {
-	// fill in the registers
+void mov(cpu3026_processor& proc) {
+
+	byte_t parameter = proc.memory()->readb(proc.ip() + 1);
+
+	int reg_in = parameter & 0x07;
+	int reg_out = (parameter & 0x1C) >> 3;
+
+	proc.set_reg(reg_in, proc.get_reg(reg_out);
+
 	proc.ip() += 3;
 }
 
 // cpu implementation
 
-void cpu3026_processor::do_reset() {
-	ip() = RESET_VECTOR;
-}
 void cpu3026_processor::do_step() {
 	byte_t instruction = memory()->readb(ip());
 	const byte_t opcode_mask = 0b11111111;
 	switch (instruction & opcode_mask) {
 	case(0x00):
-		load(*this);
+		mov(*this);
 		break;
 	case(0xF0):
 		nop(*this);
@@ -32,6 +40,9 @@ void cpu3026_processor::do_step() {
 		nop(*this);
 		break;
 	}
+}
+void cpu3026_processor::do_reset() {
+	ip() = RESET_VECTOR;
 }
 void cpu3026_processor::do_interrupt(word_t interrupt) {
 	// interrupt logic here
@@ -71,6 +82,12 @@ std::shared_ptr<memory_base> cpu3026_processor::memory() const {
 	return memory_v;
 }
 std::shared_ptr<memory_base> cpu3026_processor::io() const {
+	return io_v;
+}
+std::shared_ptr<memory_base>& cpu3026_processor::memory() {
+	return memory_v;
+}
+std::shared_ptr<memory_base>& cpu3026_processor::io() {
 	return io_v;
 }
 word_t cpu3026_processor::p0() const {

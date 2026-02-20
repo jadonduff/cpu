@@ -18,6 +18,7 @@ namespace cpu3026 {
 			R4 = 4,
 			R5 = 5,
 			R6 = 6,
+			R7 = 7,
 		};
 	}
 	using cpu_ptr_t = unsigned;
@@ -52,11 +53,13 @@ namespace cpu3026 {
 		int		do_total_cycles()				override;
 		int		do_total_instructions()			override;
 	public:
+		// array based get-set registers and pointers
 		word_t	get_reg(cpu_reg_t) const;
 		word_t	get_ptr(cpu_ptr_t) const;
 		void	set_reg(cpu_reg_t, word_t value);
 		void	set_ptr(cpu_ptr_t, word_t value);
 
+		// pointer accessors
 		word_t& ip();
 		word_t& bp();
 		word_t& sp();
@@ -65,6 +68,7 @@ namespace cpu3026 {
 		word_t bp() const;
 		word_t sp() const;
 
+		// register accessors
 		word_t& r1();
 		word_t& r2();
 		word_t& r3();
@@ -81,6 +85,9 @@ namespace cpu3026 {
 		word_t r6() const;
 		word_t r7() const;
 
+		// memory accessors
+		std::shared_ptr<memory_base>& memory();
+		std::shared_ptr<memory_base>& io();
 		std::shared_ptr<memory_base> memory() const;
 		std::shared_ptr<memory_base> io() const;
 	};

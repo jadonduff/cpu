@@ -3,9 +3,12 @@ include(FetchContent)
 #source files
 set(PROJECT_SOURCES
 	"src/source.cpp"
+	"src/memory.cpp"
+	"src/io_memory.cpp"
 )
 set(PROJECT_HEADERS
 	"include/cpu3026/memory/memory.h"
+	"include/cpu3026/memory/io_memory.h"
 )
 
 # add the library

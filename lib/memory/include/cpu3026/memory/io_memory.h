@@ -5,15 +5,15 @@
 #include <cpu3026/core/memory_base.h>
 #include <cpu3026/core/types.h>
 
-// basic memory mapped ram and rom, ability to load .bin files into rom 
+// ability to bind events to specifc addresses, used for io ports
 
 namespace cpu3026 {
-	class memory : public memory_base {
-		// add variables here
+	class io_memory : public memory_base {
+		// add mapped io here
 	public:
-		memory();
+		io_memory();
 
-		// add accessor functions here
+		// add functions to add io bindings
 	private:
 		byte_t do_readb(address_t address) const override;
 		void do_writeb(address_t address, byte_t value) override;

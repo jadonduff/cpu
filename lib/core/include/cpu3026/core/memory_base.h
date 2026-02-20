@@ -1,4 +1,6 @@
 #pragma once
+#ifndef CPU3026_CORE_MEMORY_BASE_H
+#define CPU3026_CORE_MEMORY_BASE_H
 #include <cpu3026/core/types.h>
 
 namespace cpu3026 {
@@ -51,3 +53,5 @@ namespace cpu3026 {
 		return do_writew(address, value);
 	}
 }
+
+#endif // CPU3026_CORE_MEMORY_BASE_H

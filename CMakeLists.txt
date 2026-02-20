@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
-
+cmake_minimum_required(VERSION 3.24)
 # set the project name
 project(cpu3026 VERSION 0.1.0 LANGUAGES C CXX)
 

@@ -40,7 +40,7 @@ namespace cpu3026 {
 		do_writeb(address, static_cast<byte_t>(value & 0xFF));
 		do_writeb(address + 1, static_cast<byte_t>((value >> 8) & 0xFF));
 	}
-	byte_t cpu3026::memory_base::readb(address_t address) const {
+	inline byte_t cpu3026::memory_base::readb(address_t address) const {
 		return do_readb(address);
 	}
 	inline void cpu3026::memory_base::writeb(address_t address, byte_t value) {

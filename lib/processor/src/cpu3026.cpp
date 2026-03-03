@@ -19,7 +19,7 @@ void mov(cpu3026_processor& proc) {
 	int reg_in = parameter & 0x07;
 	int reg_out = (parameter & 0x1C) >> 3;
 
-	proc.set_reg(reg_in, proc.get_reg(reg_out);
+	proc.set_reg(reg_in, proc.get_reg(reg_out));
 
 	proc.ip() += 3;
 }

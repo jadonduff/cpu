@@ -13,6 +13,8 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 add_subdirectory(lib/core)
 add_subdirectory(lib/memory)
 add_subdirectory(lib/processor)
+add_subdirectory(lib/computer)
+add_subdirectory(lib/cli)
 
 # add global library
 add_library(cpu3026 INTERFACE)

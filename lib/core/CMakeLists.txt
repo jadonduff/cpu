@@ -8,7 +8,7 @@ set(PROJECT_HEADERS
 	
 	"include/cpu3026/core/memory_base.h"
 	"include/cpu3026/core/types.h"
-)
+ "include/cpu3026/core/word_iterable.h")
 
 # add the library
 add_library(cpu3026_core STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS}  "include/cpu3026/core/processor_base.h")

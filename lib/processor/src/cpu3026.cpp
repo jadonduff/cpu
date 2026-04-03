@@ -136,7 +136,7 @@ void div(cpu3026_processor& proc) { //Divides the value of one register by anoth
 	proc.set_reg(reg_d, proc.get_reg(reg_d) / divisor);
 	proc.ip() += 3;
 }
-void and(cpu3026_processor& proc) { //perfoms a bitwise AND operation
+void _and(cpu3026_processor& proc) { //perfoms a bitwise AND operation
 	byte_t parameter = proc.memory()->readb(proc.ip() + 1);
 
 	int reg_d = parameter & 0x07;
@@ -146,7 +146,7 @@ void and(cpu3026_processor& proc) { //perfoms a bitwise AND operation
 
 	proc.ip() += 3;
 }
-void or(cpu3026_processor& proc) { //perfoms a bitwise OR operation
+void _or(cpu3026_processor& proc) { //perfoms a bitwise OR operation
 	byte_t parameter = proc.memory()->readb(proc.ip() + 1);
 
 	int reg_d = parameter & 0x07;
@@ -156,7 +156,7 @@ void or(cpu3026_processor& proc) { //perfoms a bitwise OR operation
 
 	proc.ip() += 3;
 }
-void not(cpu3026_processor& proc) {//perfoms a bitwise NOT operation
+void _not(cpu3026_processor& proc) {//perfoms a bitwise NOT operation
 	byte_t parameter = proc.memory()->readb(proc.ip() + 1);
 
 	int reg_d = parameter & 0x07;
@@ -174,7 +174,7 @@ void neg(cpu3026_processor& proc) { //negates the value of a register (two's com
 
 	proc.ip() += 2;
 }
-void xor(cpu3026_processor& proc) { //perfoms a bitwise XOR operation
+void _xor(cpu3026_processor& proc) { //perfoms a bitwise XOR operation
 	byte_t parameter = proc.memory()->readb(proc.ip() + 1);
 
 	int reg_d = parameter & 0x07;
@@ -392,19 +392,19 @@ void cpu3026_processor::do_step() {
 		div(*this);
 		break;
 	case(0x20):
-		and(*this);
+		_and(*this);
 		break;
 	case(0x21):
-		or(*this);
+		_or(*this);
 		break;
 	case(0x22):
-		not(*this);
+		_not(*this);
 		break;
 	case(0x23):
 		neg(*this);
 		break;
 	case(0x24):
-		xor(*this);
+		_xor(*this);
 		break;
 	case(0x25):
 		shl(*this);

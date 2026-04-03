@@ -67,7 +67,7 @@ namespace cpu3026 {
 				emplace(name, cmd);
 			}
 			else {
-				commands.emplace(name, [cmd](int a, char** b, std::istream& c, std::ostream& d, Arg...) {
+				commands.emplace(name, [cmd](int a, char** b, Arg..., std::istream& c, std::ostream& d) {
 					return cmd(a, b, c, d);
 				});
 			}

@@ -33,4 +33,4 @@ namespace cpu3026::commands {
 	}
 }
 
-#endif CPU3026_CLI_COMMANDS_LOAD_CMD_H
+#endif // CPU3026_CLI_COMMANDS_LOAD_CMD_H

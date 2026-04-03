@@ -4,6 +4,7 @@
 
 #include "command_handler.h"
 #include "commands/load_cmd.h"
+#include "commands/run_cmd.h"
 #include <cpu3026/vm/vm.h>
 
 namespace cpu3026 {
@@ -14,6 +15,7 @@ namespace cpu3026 {
 		vm_command_handler o{};
 
 		o.emplace("load", &commands::load_cmd);
+		o.emplace("run", &commands::run_cmd);
 
 		return o;
 	}

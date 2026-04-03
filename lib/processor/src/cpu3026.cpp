@@ -127,7 +127,7 @@ void div(cpu3026_processor& proc) {
 	proc.set_reg(reg_d, proc.get_reg(reg_d) / divisor);
 	proc.ip() += 3;
 }
-void and(cpu3026_processor& proc) {
+void _and(cpu3026_processor& proc) {
 	byte_t parameter = proc.memory()->readb(proc.ip() + 1);
 
 	int reg_d = parameter & 0x07;

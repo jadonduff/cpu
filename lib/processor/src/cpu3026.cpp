@@ -56,7 +56,7 @@ int cpu3026_processor::do_total_instructions() {
 
 cpu3026_processor::cpu3026_processor(const std::shared_ptr<memory_base>& memory, const std::shared_ptr<memory_base>& io) : memory_v(memory), io_v(io) {
 	if (memory == nullptr) throw std::runtime_error("memory cannot be null");
-	if (io == nullptr) throw std::runtime_error("io cannot be null");
+	// if (io == nullptr) throw std::runtime_error("io cannot be null");
 	reset();
 }
 

@@ -3,12 +3,17 @@
 #define CPU3026_CLI_COMMANDS_H
 
 #include "command_handler.h"
+#include "commands/load_cmd.h"
+#include <cpu3026/vm/vm.h>
 
 namespace cpu3026 {
-	command_handler default_commands() {
-		command_handler o{};
 
-		//o.emplace();
+	using vm_command_handler = basic_command_handler<virtual_machine&>;
+
+	inline vm_command_handler default_commands() {
+		vm_command_handler o{};
+
+		o.emplace("load", &commands::load_cmd);
 
 		return o;
 	}

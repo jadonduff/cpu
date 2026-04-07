@@ -1,6 +1,6 @@
 message("importing boost...")
 
-set(BOOST_INCLUDE_LIBRARIES "asio")
+set(BOOST_INCLUDE_LIBRARIES "asio;beast")
 
 
 FetchContent_Declare(

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CPU3026_MEMORY_MEMORY_H
-#define CPU3026_MEMORY_MEMORY_H
+#ifndef CPU3026_MEMORY_IO_MEMORY_H
+#define CPU3026_MEMORY_IO_MEMORY_H
 
 #include <cpu3026/core/memory_base.h>
 #include <cpu3026/core/types.h>
@@ -22,4 +22,4 @@ namespace cpu3026 {
 	};
 }
 
-#endif // CPU3026_MEMORY_MEMORY_H
+#endif // CPU3026_MEMORY_IO_MEMORY_H

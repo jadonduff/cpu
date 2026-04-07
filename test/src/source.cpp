@@ -1,6 +1,6 @@
 #include "core_tests.h"
 #include "memory_tests.h"
-#include "memory_tests.h"
+#include "processor_tests.h"
 #include <gtest/gtest.h>
 
 int main(int argc, char** argv) {

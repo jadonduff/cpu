@@ -5,17 +5,7 @@ using namespace cpu3026;
 
 // implement instructions in the // instructions header
 
-// add instructions to cpu in function cpu3026_processor::do_step()
-enum flags : word_t {
-	FLAG_Z = 1 << 0, // zero flag
-	FLAG_C = 1 << 1, // carry flag
-	FLAG_N = 1 << 2, // negative flag
-	FLAG_V = 1 << 3, // overflow flag
-	FLAG_IE = 1 << 4, // interrupt enable flag
-	FLAG_IP = 1 << 5, // interrupt in progress flag
-};
-constexpr word_t INTERRUPT_VECTOR_BASE = 0x1000;
-constexpr int MAX_INTERRUPTS = 256;
+
 // instructions
 void load(cpu3026_processor& proc) { //Loads a standard word-sized value from memory into a register.
 	byte_t parameter = proc.memory()->readb(proc.ip() + 1);
@@ -240,7 +230,7 @@ void ret(cpu3026_processor& proc) { //Returns from a subroutine to a saved addre
 void beq(cpu3026_processor& proc) { //jumps to a specified memory address if the zero flag is set (indicating that the previous comparison resulted in equality).
 	word_t address = proc.memory()->readw(proc.ip() + 1);
 
-	if(proc.get_flag(proc,FLAG_Z))	{
+	if(proc.get_flag(FLAG_Z))	{
 		proc.ip() = address;
 	} else {
 		proc.ip() += 3;
@@ -258,7 +248,7 @@ void bneq(cpu3026_processor& proc) { //jumps to a specified memory address if th
 void blt(cpu3026_processor& proc) { //jumps to a specified memory address if the negative flag is set (indicating that the first value in the previous comparison was less than the second).
 	word_t address = proc.memory()->readw(proc.ip() + 1);
 
-	if(proc.get_flag(proc,FLAG_N))	{
+	if(proc.get_flag(FLAG_N))	{
 		proc.ip() = address;
 	} else {
 		proc.ip() += 3;
@@ -335,7 +325,7 @@ void iret(cpu3026_processor& proc) {//Returns from an interrupt service routine 
 	proc.sp() += 2;
 
 	proc.ip() = ip_value;
-	proc.set_ptr(cpu_ptr::FLAGS, flags);
+	proc.set_flag_reg(flags);
 }
 void cli(cpu3026_processor& proc) { // Clears the interrupt enable fla
 	proc.set_flag(FLAG_IE, false);
@@ -477,16 +467,16 @@ void cpu3026_processor::do_step() {
 	}
 }
 void cpu3026_processor::do_reset() {
-	set_ptr(cpu_ptr::FLAGS, 0);
+	flag_v = 0;
 	set_flag(FLAG_IE, true);
-	ip() = memory() > readw(INTERRUPT_VECTOR_BASE + 0);
+	ip() = memory()->readw(INTERRUPT_VECTOR_BASE + 0);
 }
 void cpu3026_processor::do_interrupt(word_t interrupt) { //TODO: Implement interrupt logic
 	// interrupt logic here
 	set_flag(FLAG_IP, true);
 	set_flag(FLAG_IE, false);
 	sp() -= 2;
-	memory()->writew(sp(), get_ptr(cpu_ptr::FLAGS));
+	memory()->writew(sp(), flag_v);
 	sp() -= 2;
 	memory()->writew(sp(), ip());
 
@@ -531,16 +521,16 @@ void cpu3026_processor::set_ptr(cpu_ptr_t index, word_t value) {
 	ptr_v[index - 1] = value;
 }
 void cpu3026_processor::set_flag(word_t flag, bool value) {
-	word_t flags_value = get_ptr(cpu_ptr::FLAGS);
+	word_t flags_value = flag_v;
 	if (value) {
 		flags_value |= flag;
 	} else {
 		flags_value &= ~flag;
 	}
-	set_ptr(cpu_ptr::FLAGS, flags_value);
+	flag_v = flags_value;
 }
 bool cpu3026_processor::get_flag(word_t flag) const {
-	word_t flags_value = get_ptr(cpu_ptr::FLAGS);
+	word_t flags_value = flag_v;
 	return (flags_value & flag) != 0;
 }
 std::shared_ptr<memory_base> cpu3026_processor::memory() const {
@@ -628,9 +618,16 @@ bool cpu3026_processor::flag_n() const {
 	return get_flag(FLAG_N);
 }
 
-bool cpu3026_processor::flag_v() const {
-	return get_flag(FLAG_V);
+bool cpu3026_processor::flag_o() const {
+	return get_flag(FLAG_O);
 }
 bool cpu3026_processor::flag_c() const {
 	return get_flag(FLAG_C);
+}
+
+word_t cpu3026_processor::get_flag_reg() const {
+	return flag_v;
+}
+void cpu3026_processor::set_flag_reg(word_t value) {
+	flag_v = value;
 }

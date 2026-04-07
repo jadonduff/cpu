@@ -30,6 +30,17 @@ namespace cpu3026 {
 			BP = 3,
 		};
 	}
+	// add instructions to cpu in function cpu3026_processor::do_step()
+	enum flags : word_t {
+		FLAG_Z = 1 << 0, // zero flag
+		FLAG_C = 1 << 1, // carry flag
+		FLAG_N = 1 << 2, // negative flag
+		FLAG_O = 1 << 3, // overflow flag
+		FLAG_IE = 1 << 4, // interrupt enable flag
+		FLAG_IP = 1 << 5, // interrupt in progress flag
+	};
+	constexpr word_t INTERRUPT_VECTOR_BASE = 0x1000;
+	constexpr int MAX_INTERRUPTS = 256;
 
 	// position in memory where the processor looks when reset.
 	constexpr address_t RESET_VECTOR = 0x0000;
@@ -40,6 +51,7 @@ namespace cpu3026 {
 
 		word_t reg_v[7]{};
 		word_t ptr_v[3]{};
+		word_t flag_v{};
 
 		std::shared_ptr<memory_base> memory_v;
 		std::shared_ptr<memory_base> io_v;
@@ -56,8 +68,14 @@ namespace cpu3026 {
 		// array based get-set registers and pointers
 		word_t	get_reg(cpu_reg_t) const;
 		word_t	get_ptr(cpu_ptr_t) const;
+		bool	get_flag(word_t flag) const;
 		void	set_reg(cpu_reg_t, word_t value);
 		void	set_ptr(cpu_ptr_t, word_t value);
+		void	set_flag(word_t flag, bool value);
+
+
+		// interrupt controller
+		void request_interrupt(word_t interrupt);
 
 		// pointer accessors
 		word_t& ip();
@@ -84,6 +102,15 @@ namespace cpu3026 {
 		word_t r5() const;
 		word_t r6() const;
 		word_t r7() const;
+
+		word_t get_flag_reg() const;
+		void set_flag_reg(word_t);
+
+		bool flag_z() const;
+		bool flag_n() const;
+		bool flag_o() const;
+		bool flag_c() const;
+
 
 		// memory accessors
 		std::shared_ptr<memory_base>& memory();

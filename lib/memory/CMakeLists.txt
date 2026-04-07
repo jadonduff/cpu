@@ -1,12 +1,14 @@
-cmake_minimum_required(VERSION 3.16)
 include(FetchContent)
 
 #source files
 set(PROJECT_SOURCES
 	"src/source.cpp"
+	"src/memory.cpp"
+	"src/io_memory.cpp"
 )
 set(PROJECT_HEADERS
 	"include/cpu3026/memory/memory.h"
+	"include/cpu3026/memory/io_memory.h"
 )
 
 # add the library
@@ -18,7 +20,6 @@ target_link_libraries(cpu3026_memory PUBLIC cpu3026::core)
 # adds a directory to search when finding header files
 target_include_directories(cpu3026_memory 
 	PUBLIC "include" 
-	PUBLIC "${cpu3026_BINARY_DIR}/core/include"
 )
 
 # dependencies

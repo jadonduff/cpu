@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
-
+cmake_minimum_required(VERSION 3.24)
 # set the project name
 project(cpu3026 VERSION 0.1.0 LANGUAGES C CXX)
 
@@ -14,11 +13,14 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 add_subdirectory(lib/core)
 add_subdirectory(lib/memory)
 add_subdirectory(lib/processor)
+add_subdirectory(lib/vm)
+add_subdirectory(lib/cli)
+add_subdirectory(lib/rest)
 
 # add global library
 add_library(cpu3026 INTERFACE)
 add_library(cpu3026::cpu3026 ALIAS cpu3026)
-target_link_libraries(cpu3026 INTERFACE cpu3026::core cpu3026::memory cpu3026::processor)
+target_link_libraries(cpu3026 INTERFACE cpu3026::core cpu3026::memory cpu3026::processor cpu3026::vm cpu3026::cli cpu3026::rest)
 
 #add executables
 add_subdirectory(app/cmd)

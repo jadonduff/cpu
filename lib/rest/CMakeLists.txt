@@ -20,3 +20,6 @@ target_include_directories(cpu3026_rest
 
 # dependencies
 set(BUILD_SHARED_LIBS ON)
+
+include(boost)
+target_link_libraries(cpu3026_rest PUBLIC Boost::asio)

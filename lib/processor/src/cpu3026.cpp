@@ -503,22 +503,31 @@ cpu3026_processor::cpu3026_processor(const std::shared_ptr<memory_base>& memory,
 }
 
 word_t cpu3026_processor::get_reg(cpu_reg_t index) const {
-	if (index == 0) return 0;
-	if (index > 7) throw std::runtime_error("failed to write cpu register. valid range is [0,8)");
-	return reg_v[index - 1];
+    if (index > 7)
+        throw std::runtime_error("failed to read cpu register. valid range is [0,8)");
+    return (index == 0) ? 0 : reg_v[index - 1];
 }
+
 void cpu3026_processor::set_reg(cpu_reg_t index, word_t value) {
-	if (index == 0 || index > 7) throw std::runtime_error("failed to write cpu register. valid range is [1,8)");
-	reg_v[index - 1] = value;
+    if (index > 7)
+        throw std::runtime_error("failed to write cpu register. valid range is [0,8)");
+    if (index == 0) {
+        // r0 is read-only zero
+        return;
+    }
+    reg_v[index - 1] = value;
 }
 word_t cpu3026_processor::get_ptr(cpu_ptr_t index) const {
-	if (index == 0) return 0;
-	if (index > 3) throw std::runtime_error("failed to read cpu pointer. valid range is [0,4)");
-	return ptr_v[index - 1];
+    // P0 is always 0, IP/SP/BP are writable
+    if (index == 0) return 0;
+    if (index > 3) throw std::runtime_error("failed to read cpu pointer. valid range is [0,4)");
+    return ptr_v[index - 1];
 }
 void cpu3026_processor::set_ptr(cpu_ptr_t index, word_t value) {
-	if (index == 0 || index > 3) throw std::runtime_error("failed to write cpu pointer. valid range is [1,4)");
-	ptr_v[index - 1] = value;
+    // Only IP (1), SP (2), BP (3) are writable; P0 (0) is read-only zero
+    if (index == 0) return;  // silently ignore writes to P0
+    if (index > 3) throw std::runtime_error("failed to write cpu pointer. valid range is [1,4)");
+    ptr_v[index - 1] = value;
 }
 void cpu3026_processor::set_flag(word_t flag, bool value) {
 	word_t flags_value = flag_v;

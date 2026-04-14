@@ -5,7 +5,7 @@ set(PROJECT_SOURCES
 	"src/source.cpp"
 )
 set(PROJECT_HEADERS
- "src/core_tests.h" "src/memory_tests.h" "src/processor_tests.h")
+ "src/core_tests.h" "src/memory_tests.h" "src/processor_tests.h" "src/assembler_tests.h")
 
 # add the executable
 add_executable(cpu3026_test ${PROJECT_SOURCES} ${PROJECT_HEADERS})

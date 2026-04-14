@@ -25,7 +25,7 @@ namespace cpu3026 {
 		bool pass1(const std::vector<std::string>& lines, address_t& out_size, std::string& error);
 		bool pass2(const std::vector<std::string>& lines, std::vector<byte_t>& out, std::string& error);
 		bool encode(const std::string& mnemonic, const std::string& operands,
-		            address_t current_addr, std::vector<byte_t>& out, std::string& error);
+		            std::vector<byte_t>& out, std::string& error);
 
 		static int instruction_size(const std::string& mnemonic);
 		static int parse_reg(const std::string& token);

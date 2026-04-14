@@ -2,6 +2,7 @@
 #ifndef CPU3026_VM_VM_H
 #define CPU3026_VM_VM_H
 
+
 #include <cpu3026/memory/memory.h>
 #include <cpu3026/processor/cpu3026.h>
 #include <cpu3026/core/types.h>
@@ -10,11 +11,11 @@
 // ability to bind events to specifc addresses, used for io ports
 
 namespace cpu3026 {
-	class virtualmachine {
+	class virtual_machine {
 		cpu3026::memory* memory_v;
 		cpu3026_processor* processor_v;
 	public:
-		virtualmachine(memory* memory, cpu3026_processor* processor) : memory_v(memory), processor_v(processor) { }
+		virtual_machine(memory* memory, cpu3026_processor* processor) : memory_v(memory), processor_v(processor) { }
 
 		cpu3026::memory* memory() {
 			return memory_v;

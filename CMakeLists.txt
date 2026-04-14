@@ -21,7 +21,7 @@ add_subdirectory(lib/rest)
 # add global library
 add_library(cpu3026 INTERFACE)
 add_library(cpu3026::cpu3026 ALIAS cpu3026)
-target_link_libraries(cpu3026 INTERFACE cpu3026::core cpu3026::memory cpu3026::processor)
+target_link_libraries(cpu3026 INTERFACE cpu3026::core cpu3026::memory cpu3026::processor cpu3026::vm cpu3026::cli cpu3026::rest)
 
 #add executables
 add_subdirectory(app/cmd)

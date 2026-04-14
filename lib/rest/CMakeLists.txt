@@ -5,6 +5,7 @@ set(PROJECT_SOURCES
 	"src/source.cpp"
 )
 set(PROJECT_HEADERS
+	"include/cpu3026/rest/rest.h"
 )
 
 # add the library
@@ -20,3 +21,6 @@ target_include_directories(cpu3026_rest
 
 # dependencies
 set(BUILD_SHARED_LIBS ON)
+
+include(boost)
+target_link_libraries(cpu3026_rest PUBLIC Boost::asio Boost::beast)

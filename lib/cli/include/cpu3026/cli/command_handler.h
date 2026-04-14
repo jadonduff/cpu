@@ -13,19 +13,11 @@
 #include <algorithm>
 
 namespace cpu3026 {
-
-	namespace detail {
-		template<typename T>
-		using command_handler_command_type = std::function<int(int, char**, std::istream&, std::ostream&, T)>;
-
-		template<>
-		using command_handler_command_type<void> = std::function<int(int, char**, std::istream&, std::ostream&)>;
-	}
-
-	template<typename T>
-	class command_handler {
+	template<typename... Arg>
+	class basic_command_handler {
 	public:
-		using command_type = detail::command_handler_command_type<T>;
+		using command_type = std::function<int(int, char**, Arg..., std::istream&, std::ostream&)>;
+		using void_command_type = std::function<int(int, char**, std::istream&, std::ostream&)>;
 	private:
 		std::unordered_map<std::string, command_type> commands;
 
@@ -61,14 +53,24 @@ namespace cpu3026 {
 			return 0;
 		}
 	public:
-		command_handler() {
+		basic_command_handler() {
 			using namespace std::placeholders;
-			emplace("help", std::bind(&command_handler::help_cmd, this, _1, _2, _3, _4));
-			emplace("clear", std::bind(&command_handler::clear_cmd, _1, _2, _3, _4));
-			emplace("echo", std::bind(&command_handler::echo_cmd, _1, _2, _3, _4));
+			emplace_void("help", std::bind(&basic_command_handler::help_cmd, this, _1, _2, _3, _4));
+			emplace_void("clear", std::bind(&basic_command_handler::clear_cmd, _1, _2, _3, _4));
+			emplace_void("echo", std::bind(&basic_command_handler::echo_cmd, _1, _2, _3, _4));
 		}
 		void emplace(const std::string& name, command_type cmd) {
 			commands.emplace(name, cmd);
+		}
+		void emplace_void(const std::string& name, void_command_type cmd) {
+			if constexpr (sizeof...(Arg) == 0) {
+				emplace(name, cmd);
+			}
+			else {
+				commands.emplace(name, [cmd](int a, char** b, Arg..., std::istream& c, std::ostream& d) {
+					return cmd(a, b, c, d);
+				});
+			}
 		}
 		bool alias(const std::string& alias, const std::string& name) {
 			auto p = commands.find(name);
@@ -76,16 +78,16 @@ namespace cpu3026 {
 			emplace(alias, p->second);
 			return true;
 		}
-		int simple_invoke(int argc, const char** argv, std::istream& cin, std::ostream& cout) {
+		int simple_invoke(int argc, const char** argv, Arg... arg, std::istream& cin, std::ostream& cout) {
 
 			if (argc < 1) return 0x7E00;
 			auto f = commands.find(argv[0]);
 			if (f == commands.end()) return 0x7E01;
 			auto& [str_out, cmd] = *f;
 
-			return cmd(argc, const_cast<char**>(argv), cin, cout);
+			return cmd(argc, const_cast<char**>(argv), arg..., cin, cout);
 		}
-		int invoke(const std::string& line, std::istream& cin = std::cin, std::ostream& cout = std::cout) {
+		int invoke(const std::string& line, Arg... arg, std::istream& cin = std::cin, std::ostream& cout = std::cout) {
 			std::vector<std::string> words{};
 			std::vector<const char*> cwords{};
 			for (std::string_view w : word_iterable(line)) {
@@ -94,9 +96,11 @@ namespace cpu3026 {
 			for (auto& w : words) {
 				cwords.push_back(w.c_str());
 			}
-			return simple_invoke(words.size(), cwords.data(), cin, cout);
+			return simple_invoke(words.size(), cwords.data(), arg..., cin, cout);
 		}
 	};
+
+	using command_handler = basic_command_handler<void>;
 }
 
 #endif // CPU3026_CLI_COMMAND_HANDLER_H

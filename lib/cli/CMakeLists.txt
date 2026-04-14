@@ -8,7 +8,7 @@ set(PROJECT_HEADERS
 	"include/cpu3026/cli/command_handler.h"
 	"include/cpu3026/cli/commands.h"
 	"include/cpu3026/cli/io.h"
- "include/cpu3026/cli/commands/load_cmd.h")
+ "include/cpu3026/cli/commands/load_cmd.h" "include/cpu3026/cli/commands/run_cmd.h")
 
 # add the library
 add_library(cpu3026_cli STATIC ${PROJECT_SOURCES} ${PROJECT_HEADERS})

@@ -29,7 +29,7 @@ namespace cpu3026 {
 
 	//definitions
 
-	void cpu3026::processor_base::reset() {
+	inline void cpu3026::processor_base::reset() {
 		do_reset();
 	}
 	inline void cpu3026::processor_base::step(int count) {

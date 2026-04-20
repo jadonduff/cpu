@@ -10,8 +10,13 @@ using boost::asio::ip::tcp;
 
 std::unordered_map<std::string, std::function<http_response_packet(http_request_packet&, cpu3026::virtual_machine&)>> request_map{
 	{
-		"/cpu3026/v1/cli", [](http_request_packet&, cpu3026::virtual_machine&) -> http_response_packet {
-			
+		"/cpu3026/v1/hello_world", [](http_request_packet&, cpu3026::virtual_machine&) -> http_response_packet {
+			http_response_packet o{};
+
+			o.response_code = 200;
+			o.body = "{\"type\":\"hello_world\",\"body\":\"Hello World!\"}"
+
+			return o;
 		}
 	}
 };
